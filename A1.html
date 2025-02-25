@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Layout</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid black;
+            background-color: lightgray;
+        }
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 220px;
+            margin: 20px auto;
+        }
+        button {
+            font-size: 18px;
+            padding: 15px;
+            cursor: pointer;
+            border: none;
+            background-color: white;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        button:active {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <h2>Calculator</h2>
+    <canvas id="myCanvas" width="300" height="500"></canvas>
+    <div class="button-container">
+        <button onclick="updateExpression('1')">1</button>
+        <button onclick="updateExpression('2')">2</button>
+        <button onclick="updateExpression('3')">3</button>
+        <button onclick="updateExpression('+')">+</button>
+        <button onclick="updateExpression('4')">4</button>
+        <button onclick="updateExpression('5')">5</button>
+        <button onclick="updateExpression('6')">6</button>
+        <button onclick="updateExpression('-')">-</button>
+        <button onclick="updateExpression('7')">7</button>
+        <button onclick="updateExpression('8')">8</button>
+        <button onclick="updateExpression('9')">9</button>
+        <button onclick="updateExpression('*')">×</button>
+        <button onclick="clearScreen()">C</button>
+        <button onclick="updateExpression('0')">0</button>
+        <button onclick="calculateResult()">=</button>
+        <button onclick="updateExpression('/')">÷</button>
+    </div>
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        // Draw calculator body
+        ctx.fillStyle = "white";
+        ctx.fillRect(50, 50, 200, 400);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 3;
+        ctx.strokeRect(50, 50, 200, 400);
+        // Expression storage
+        var expression = "";
+        // Function to update expression and display on canvas
+        function updateExpression(value) {
+            expression += value;
+            drawScreen(expression);
+        }
+        // Function to clear the screen
+        function clearScreen() {
+            expression = "";
+            drawScreen(expression);
+        }
+        // Function to evaluate expression
+        function calculateResult() {
+            try {
+                let result = eval(expression); // Calculate result
+                expression = result.toString(); // Store result as new expression
+                drawScreen(expression); // Update display
+            } catch (error) {
+                drawScreen("Error"); // Handle errors
+                expression = "";
+            }
+        }
+        // Function to draw on calculator screen
+        function drawScreen(text) {
+            ctx.fillStyle = "white";
+            ctx.fillRect(55, 55, 190, 40); // Clear display area
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "black";
+            ctx.fillText(text, 60, 80); 
+        }
+        drawScreen("");
+    </script>
+</body>
+</html>
